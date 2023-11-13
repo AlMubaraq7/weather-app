@@ -1,3 +1,6 @@
+# Using The App
+Make sure you have an account with OpenWeatherMap then input your API key   
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
