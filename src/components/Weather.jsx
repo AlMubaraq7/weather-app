@@ -4,13 +4,14 @@ import "./Weather.scss";
 
 import WeatherDisplay from "./WeatherDisplay";
 
-const API_Key = "67861e2c54c51b2b3cb7994ab76e43c0";
+const API_Key = "YOUR_API_KEY";
 class Weather extends Component {
   constructor() {
     super();
     this.state = {
       city: "",
       weather: null,
+      loading: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -23,6 +24,9 @@ class Weather extends Component {
     const { city } = this.state;
     try {
       if (city) {
+        this.setState({
+          loading: true,
+        });
         const data = await fetch(
           `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_Key}&units=metric`
         )
@@ -31,6 +35,7 @@ class Weather extends Component {
 
         this.setState({
           weather: data,
+          loading: false,
         });
         console.log(data);
       } else return;
@@ -39,10 +44,10 @@ class Weather extends Component {
     }
   }
   render() {
-    const { weather } = this.state;
+    const { weather, loading } = this.state;
     return (
       <>
-        <div>
+        <div className="weather-app">
           <div className="group">
             <h1>Weather App</h1>
             <form className="form" onSubmit={this.handleSubmit}>
@@ -61,7 +66,10 @@ class Weather extends Component {
               <button type="submit">GET</button>
             </form>
           </div>
-          {weather ? <WeatherDisplay weather={weather} /> : null}
+
+          {weather ? (
+            <WeatherDisplay weather={weather} loading={loading} />
+          ) : null}
         </div>
       </>
     );
